@@ -1,0 +1,32 @@
+dependencies {
+    compile project(':mucommander-commons-file')
+    compile project(':mucommander-protocol-api')
+    compile project(':mucommander-encoding')
+    compile project(':mucommander-translator')
+    compile 'commons-net:commons-net:3.6'
+
+    testImplementation 'junit:junit:4.12'
+
+    testCompile 'org.testng:testng:6.11'
+    testCompile project(':mucommander-commons-file')
+    testCompile files(project(':mucommander-commons-file').sourceSets.test.output)
+}
+
+repositories.jcenter()
+
+jar {
+   bnd ('Bundle-Name': 'muCommander-ftp',
+        'Bundle-Vendor': 'muCommander',
+        'Bundle-Description': 'Library with configuration tools',
+        'Bundle-DocURL': 'https://www.mucommander.com',
+        'Export-Package': 'com.mucommander.commons.protocol.ftp',
+        'Bundle-Activator': 'com.mucommander.commons.file.protocol.ftp.Activator',
+        'Specification-Title': "muCommander",
+        'Specification-Vendor': "Arik Hadas",
+        'Specification-Version': version,
+        'Implementation-Title': "muCommander",
+        'Implementation-Vendor': "Arik Hadas",
+        'Implementation-Version': revision.substring(0, 7),
+        'Build-Date': new Date().format('yyyyMMdd'),
+        'Build-Url': "https://www.mucommander.com/version/nightly.xml")
+}

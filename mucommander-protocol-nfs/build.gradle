@@ -1,0 +1,39 @@
+configurations {
+    library.extendsFrom compileOnly
+}
+
+dependencies {
+    compile project(':mucommander-commons-file')
+    compile project(':mucommander-protocol-api')
+    compile project(':mucommander-translator')
+
+    compileOnly files('libs/yanfs.jar')
+    library files('libs/yanfs.jar')
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+
+    testCompile 'org.testng:testng:6.11'
+    testCompile project(':mucommander-commons-file')
+    testCompile files(project(':mucommander-commons-file').sourceSets.test.output)
+}
+
+repositories.jcenter()
+
+jar {
+   from { configurations.library.collect { it.isDirectory() ? it : zipTree(it) } }
+   bnd ('Bundle-Name': 'muCommander-nfs',
+        'Bundle-Vendor': 'muCommander',
+        'Bundle-Description': 'Library with configuration tools',
+        'Bundle-DocURL': 'https://www.mucommander.com',
+        'Export-Package': 'com.mucommander.commons.protocol.nfs',
+        'Bundle-Activator': 'com.mucommander.commons.file.protocol.nfs.Activator',
+        'Specification-Title': "muCommander",
+        'Specification-Vendor': "Arik Hadas",
+        'Specification-Version': version,
+        'Implementation-Title': "muCommander",
+        'Implementation-Vendor': "Arik Hadas",
+        'Implementation-Version': revision.substring(0, 7),
+        'Build-Date': new Date().format('yyyyMMdd'),
+        'Build-Url': "https://www.mucommander.com/version/nightly.xml")
+}
